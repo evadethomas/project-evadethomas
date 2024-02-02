@@ -12,7 +12,9 @@ import java.util.Arrays;
  * @author TODO Add Name Here
  * @author CS 272 Software Development (University of San Francisco)
  * @version Spring 2024
+ * commit check
  */
+//Don't run on driver, run on tests. Find outline window if you lost it.
 public class Driver {
 	/**
 	 * Initializes the classes necessary based on the provided command-line
