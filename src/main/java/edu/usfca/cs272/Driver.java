@@ -5,8 +5,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 
-import edu.usfca.cs272.utils.JsonWriter;
-
 /**
  * Class responsible for running this project based on the provided command-line
  * arguments. See the README for details.
@@ -38,7 +36,6 @@ public class Driver {
 		double seconds = (double) elapsed / Duration.ofSeconds(1).toMillis();
 		System.out.printf("Elapsed: %f seconds%n", seconds);
 		
-	
 	}
 
 	/*
