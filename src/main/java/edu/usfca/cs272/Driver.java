@@ -35,6 +35,8 @@ public class Driver {
 		long elapsed = Duration.between(start, Instant.now()).toMillis();
 		double seconds = (double) elapsed / Duration.ofSeconds(1).toMillis();
 		System.out.printf("Elapsed: %f seconds%n", seconds);
+		
+		JsonWriter theWriten = new JsonWriter();
 	}
 
 	/*
