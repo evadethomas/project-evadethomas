@@ -1,5 +1,6 @@
 package edu.usfca.cs272;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -32,7 +33,12 @@ public class Driver {
 		System.out.println("Working Directory: " + 	Path.of(".").toAbsolutePath().normalize().getFileName());
 		System.out.println("Arguments: " + Arrays.toString(args));
 
-		getJsonFile files = new getJsonFile(args);
+		try {
+			getJsonFile files = new getJsonFile(args);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// calculate time elapsed and output
 		long elapsed = Duration.between(start, Instant.now()).toMillis();
