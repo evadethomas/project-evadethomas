@@ -1,7 +1,12 @@
 package edu.usfca.cs272;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +21,7 @@ public class getJsonFile {
 		ArgumentParser test = new ArgumentParser(args);
 		HashMap<String, String> map = test.getMap();
 		
-		Map<Object, Object> countMap = Collections.emptyMap();
+		HashMap<String, Integer> countMap = new HashMap<String, Integer>();
 		
 		
 		for (Entry<String, String> entry : map.entrySet()) {
@@ -25,19 +30,17 @@ public class getJsonFile {
 		    String value = entry.getValue();
 		    int finalCount = 0;
 		    
-		    if (key == "text") {
+		    if (key == "-text") {
 		    	countMap.put(value, getCount(value));
-		    } else if (value == "count") {
+		    	System.out.println(countMap);
+		    } else if (key == "-counts") {
+		    	Path newFilePath = Paths.get(value);
+		    	JsonWriter.writeObject(countMap, newFilePath);
+		    	
+		    	}
 		    	
 		    }
 		    //CITE: guidance on counting without splitting from Stack Overflow
-			
-		}
- 
-        
-		    
-		    
-		    FileStemmer stemmer = new FileStemmer();
 		    
 		   
 		    
@@ -52,7 +55,7 @@ public class getJsonFile {
 	    		wordCount++;
 	    	}
 	    	
-	    System.out.println(wordCount);
+	    //System.out.println(wordCount);
 	    
 	    } catch (Exception e) {
 	    	System.out.println("File not found: " + value);
