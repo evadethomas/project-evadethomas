@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Class responsible for running this project based on the provided command-line
@@ -28,13 +29,16 @@ public class Driver {
 		Instant start = Instant.now();
 
 		// TODO Fill in and modify as needed
-		System.out.println("Working Directory: " + Path.of(".").toAbsolutePath().normalize().getFileName());
+		System.out.println("Working Directory: " + 	Path.of(".").toAbsolutePath().normalize().getFileName());
 		System.out.println("Arguments: " + Arrays.toString(args));
 
+		getJsonFile files = new getJsonFile(args);
+		
 		// calculate time elapsed and output
 		long elapsed = Duration.between(start, Instant.now()).toMillis();
 		double seconds = (double) elapsed / Duration.ofSeconds(1).toMillis();
 		System.out.printf("Elapsed: %f seconds%n", seconds);
+		
 		
 	}
 
