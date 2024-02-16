@@ -15,11 +15,15 @@ public class getJsonFile {
 	
 	
 	public getJsonFile(String[] args) throws IOException {
+		
 		ArgumentParser test = new ArgumentParser(args);
 		HashMap<String, String> map = test.getMap();
 		
 		HashMap<String, Integer> countMap = new HashMap<String, Integer>();
 		
+		System.out.println(countMap);
+		System.out.println("map" + map);
+		boolean hasText = false;
 		
 		for (Entry<String, String> entry : map.entrySet()) {
 			
@@ -27,11 +31,18 @@ public class getJsonFile {
 		    String value = entry.getValue();
 		    
 		    if (key == "-text") {
-		    	countMap.put(value, getCount(value));
+		    	int count = getCount(value);
+		    	if (count != 0) {
+		    		countMap.put(value, count);
+		    	}
 		    	System.out.println(countMap);
+		    	hasText = true;
 		    } else if (key == "-counts") {
-		    	Path newFilePath = Paths.get(value);
-		    	JsonWriter.writeObject(countMap, newFilePath);
+		    	
+		    	if (hasText == true) {
+			    	Path newFilePath = Paths.get(value);
+			    	JsonWriter.writeObject(countMap, newFilePath);
+		    	}
 		    	}
 		    	
 		    }
@@ -45,7 +56,7 @@ public class getJsonFile {
 		Path newFilePath = Paths.get(value);
 		ArrayList<String> stems = FileStemmer.listStems(newFilePath);
 		System.out.println("stems" + stems);
-		
+		System.out.println(stems.size());
 	    return stems.size();
 	}
 		
