@@ -33,6 +33,7 @@ public class Driver {
 		System.out.println("Arguments: " + Arrays.toString(args));
 
 		try {
+			//See Json class
 			getJsonFile files = new getJsonFile(args);
 		} catch (IOException e) {
 			System.out.println("Problem with getting the json files. See getJsonFile class.");
