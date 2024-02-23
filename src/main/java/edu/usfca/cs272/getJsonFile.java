@@ -25,8 +25,6 @@ public class getJsonFile {
 		TreeMap<String, Integer> countMap = new TreeMap<String, Integer>();
 		HashMap<String, Integer> emptyMap = new HashMap<String, Integer>();
 		
-		System.out.println(countMap);
-		System.out.println("map" + map);
 		boolean hasText = false;
 		
 		for (Entry<String, String> entry : map.entrySet()) {
@@ -38,8 +36,11 @@ public class getJsonFile {
 		    	
 		    	File dirTest = new File(value);
 		    	if (dirTest.isDirectory() == true) {
+		    		
 		    		ArrayList<Path> paths = new ArrayList<>();
-		    		traverseDirectory(Paths.get(value), countMap, paths);
+		    		
+		    		traverseDirectory(Paths.get(value), paths);
+		    		
 		    		for(Path path : paths) {
 		    			int count  = getCount(path.toString());
 		    			if (count != 0) {
@@ -47,6 +48,7 @@ public class getJsonFile {
 		    			}
 		    			
 		    		}
+		    		
 		    	} else {
 		    		int count = getCount(value);
 		    		if (count != 0) {
@@ -54,31 +56,68 @@ public class getJsonFile {
 			    	}
 		    	}
 		    	
-		    	
-		    	
-		    	System.out.println(countMap);
 		    	hasText = true;
 		    } else if (key == "-counts") {
-		    		System.out.println("hello");
+		    	
 			    	if (value == null) {
+			    		
 			    		Path currentPath = Paths.get("counts.json");
+			    		
 			    		if (hasText == true) {
 			    			JsonWriter.writeObject(countMap, currentPath);
 				    	} else {
 			    			JsonWriter.writeObject(emptyMap, currentPath);
 			    		}
+			    		
 			    	} else {
 			    		Path newFilePath = Paths.get(value);
 				    	JsonWriter.writeObject(countMap, newFilePath);
 			    	}
+			    	
+		    } else if (key == "-index") {
+		    	System.out.println("count map" + map);
+		    	String getPath = map.get("-text");
+		    	
+		    	if (getPath != null) {
+		    		createInvertedIndex(value, getPath);
+		    	} else {
+		    		createInvertedIndex(value, getPath);
 		    	}
 		    	
 		    }
+		    	
+		    } 
 		    //CITE: guidance on counting without splitting from Stack Overflow
 		    
 		   
 		    
 		}
+
+	private void createInvertedIndex(String value, String path) throws IOException {
+		Path fileToCheck = Paths.get(path);
+		
+		
+		if (checkIfDir(path)) {
+			ArrayList<Path> filesTraversed = new ArrayList<>();
+			
+			traverseDirectory(fileToCheck, filesTraversed);
+			
+			System.out.println(filesTraversed);
+			
+		} else {
+			
+			
+			
+		}
+		
+		//for committing
+		
+	}
+	
+	private boolean checkIfDir(String path) {
+		File test = new File(path);
+		return test.isDirectory();
+	}
 
 	private int getCount(String value) throws IOException {
 		Path newFilePath = Paths.get(value);
@@ -86,7 +125,7 @@ public class getJsonFile {
 	    return stems.size();
 	}
 	
-	private static void traverseDirectory(Path directory, TreeMap<String, Integer> countMap, ArrayList<Path> paths) throws IOException {
+	private static void traverseDirectory(Path directory, ArrayList<Path> paths) throws IOException {
 		/*
 		 * The try-with-resources block makes sure we close the directory stream when
 		 * done, to make sure there aren't any issues later when accessing this
@@ -100,9 +139,7 @@ public class getJsonFile {
 			// use an enhanced-for or for-each loop for efficiency and simplicity
 			for (Path path : listing) {
 				if (Files.isDirectory(path)) {
-					System.out.println(path.toString() + "/");
-					System.out.println("path" + path);
-					traverseDirectory(path, countMap, paths);
+					traverseDirectory(path, paths);
 				} else {
 					if ((path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text")) && Files.isRegularFile(path)) {
 						paths.add(path);
