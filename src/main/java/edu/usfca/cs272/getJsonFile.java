@@ -1,6 +1,8 @@
 package edu.usfca.cs272;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
@@ -23,7 +25,11 @@ public class getJsonFile {
 		HashMap<String, String> map = test.getMap();
 		
 		TreeMap<String, Integer> countMap = new TreeMap<String, Integer>();
+		
 		HashMap<String, Integer> emptyMap = new HashMap<String, Integer>();
+		
+		TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex = new TreeMap<String, TreeMap<String, TreeSet<Integer>>>();
+		
 		
 		boolean hasText = false;
 		
@@ -42,18 +48,15 @@ public class getJsonFile {
 		    		traverseDirectory(Paths.get(value), paths);
 		    		
 		    		for(Path path : paths) {
-		    			int count  = getCount(path.toString());
-		    			if (count != 0) {
-		    				countMap.put(path.toString(), count);
-		    			}
+		    			
+		    			processFile(path, countMap, invertedIndex);	
 		    			
 		    		}
 		    		
 		    	} else {
-		    		int count = getCount(value);
-		    		if (count != 0) {
-			    		countMap.put(value, count);
-			    	}
+		    		Path path = Paths.get(value);
+		    		
+		    		processFile(path, countMap, invertedIndex);
 		    	}
 		    	
 		    	hasText = true;
@@ -78,12 +81,6 @@ public class getJsonFile {
 		    	System.out.println("count map" + map);
 		    	String getPath = map.get("-text");
 		    	
-		    	if (getPath != null) {
-		    		createInvertedIndex(value, getPath);
-		    	} else {
-		    		createInvertedIndex(value, getPath);
-		    	}
-		    	
 		    }
 		    	
 		    } 
@@ -91,38 +88,21 @@ public class getJsonFile {
 		    
 		   
 		    
-		}
-
-	private void createInvertedIndex(String value, String path) throws IOException {
-		Path fileToCheck = Paths.get(path);
 		
-		
-		if (checkIfDir(path)) {
-			ArrayList<Path> filesTraversed = new ArrayList<>();
-			
-			traverseDirectory(fileToCheck, filesTraversed);
-			
-			System.out.println(filesTraversed);
-			
-		} else {
-			
-			
-			
-		}
 		   
 		//for committing tes
 		
 	}
 	
-	private boolean checkIfDir(String path) {
-		File test = new File(path);
-		return test.isDirectory();
-	}
-
-	private int getCount(String value) throws IOException {
-		Path newFilePath = Paths.get(value);
-		ArrayList<String> stems = FileStemmer.listStems(newFilePath);
-	    return stems.size();
+	private void processFile(Path path, TreeMap<String, Integer> countMap, TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex) throws IOException {
+		
+		
+		ArrayList<String> stems = FileStemmer.listStems(path);
+		if (stems.size() != 0) {
+			countMap.put(path.toString(), stems.size());
+		}
+		
+		
 	}
 	
 	private static void traverseDirectory(Path directory, ArrayList<Path> paths) throws IOException {
@@ -139,7 +119,9 @@ public class getJsonFile {
 			// use an enhanced-for or for-each loop for efficiency and simplicity
 			for (Path path : listing) {
 				if (Files.isDirectory(path)) {
+					
 					traverseDirectory(path, paths);
+					
 				} else {
 					if ((path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text")) && Files.isRegularFile(path)) {
 						paths.add(path);
