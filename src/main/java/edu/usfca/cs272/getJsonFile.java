@@ -86,7 +86,8 @@ public class getJsonFile {
 		    	String getPath = map.get("-text");
 		    	
 		    }
-		    	JsonWriter.writeArrayObjects(invertedIndex, Paths.get("index.json"));
+		    	Path indexPath = Paths.get("actual/index-simple-hello.json");
+		    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
 		    } 
 		    //CITE: guidance on counting without splitting from Stack Overflow
 		    

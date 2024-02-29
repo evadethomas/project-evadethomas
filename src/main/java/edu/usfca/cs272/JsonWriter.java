@@ -360,12 +360,29 @@ public class JsonWriter {
 		}
 	}
 
-	public static void writeObject(TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex, Path path) {
-		try {
-			BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
+	public static void writeObjectNested(Map<String, ? extends Map<String, ? extends Collection<? extends Number>>> invertedIndex, Path path) throws IOException {
+		try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
+			
 			//use writeObjectArrays
-		}
-		catch (Exception e) {
+			int trackLast = 0;
+			int indent = 0;
+			writer.write("{\n");
+			//Goes through all the values in the map
+			for (var entry : invertedIndex.entrySet()) {
+				writeIndent(writer, 1);
+				//Gets and writes key
+				writeQuote(entry.getKey().toString(), writer, indent);
+				writer.write(": ");
+				//Gets and writes value
+				writeObjectArrays(entry.getValue(), writer, indent+1);
+				if (trackLast != invertedIndex.size() - 1) {
+					writer.write(",");
+				}
+				writer.write("\n");
+				trackLast++;
+			}
+			writeIndent(writer, indent);
+			writer.write("}");
 			
 		}
 	}
