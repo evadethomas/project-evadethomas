@@ -82,12 +82,24 @@ public class getJsonFile {
 			    	}
 			    	
 		    } else if (key == "-index") {
-		    	System.out.println("count map" + map);
-		    	String getPath = map.get("-text");
+		    	System.out.println(value);
+//		    		if (value == null) {
+//		    			Path indexPath = Paths.get("index.json");
+//				    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
+//		    		} else {
+//		    			Path indexPath = Paths.get("index-simple-hello.json");
+//				    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
+//		    		}
+		    			
+		    	
+		    	
 		    	
 		    }
-		    	Path indexPath = Paths.get("actual/index-simple-hello.json");
-		    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
+		    
+		    Path indexPath = Paths.get(map.get("-index"));
+		    System.out.println(indexPath);
+	    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
+		    	
 		    } 
 		    //CITE: guidance on counting without splitting from Stack Overflow
 		    
