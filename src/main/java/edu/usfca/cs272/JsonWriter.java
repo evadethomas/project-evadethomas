@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 
 /**
@@ -355,6 +357,16 @@ public class JsonWriter {
 		}
 		catch (IOException e) {
 			return null;
+		}
+	}
+
+	public static void writeObject(TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex, Path path) {
+		try {
+			BufferedWriter writer = Files.newBufferedWriter(path, UTF_8);
+			//use writeObjectArrays
+		}
+		catch (Exception e) {
+			
 		}
 	}
 

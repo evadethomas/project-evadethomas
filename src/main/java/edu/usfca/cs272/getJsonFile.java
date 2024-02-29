@@ -10,7 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -68,6 +70,7 @@ public class getJsonFile {
 			    		
 			    		if (hasText == true) {
 			    			JsonWriter.writeObject(countMap, currentPath);
+			    			//System.out.println("invertedIndex: " + invertedIndex);
 				    	} else {
 			    			JsonWriter.writeObject(emptyMap, currentPath);
 			    		}
@@ -75,6 +78,7 @@ public class getJsonFile {
 			    	} else {
 			    		Path newFilePath = Paths.get(value);
 				    	JsonWriter.writeObject(countMap, newFilePath);
+				    	//System.out.println("invertedIndex: " + invertedIndex);
 			    	}
 			    	
 		    } else if (key == "-index") {
@@ -82,7 +86,7 @@ public class getJsonFile {
 		    	String getPath = map.get("-text");
 		    	
 		    }
-		    	
+		    	JsonWriter.writeArrayObjects(invertedIndex, Paths.get("index.json"));
 		    } 
 		    //CITE: guidance on counting without splitting from Stack Overflow
 		    
@@ -96,11 +100,35 @@ public class getJsonFile {
 	
 	private void processFile(Path path, TreeMap<String, Integer> countMap, TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex) throws IOException {
 		
-		
 		ArrayList<String> stems = FileStemmer.listStems(path);
 		if (stems.size() != 0) {
 			countMap.put(path.toString(), stems.size());
 		}
+		
+		int count = 1;
+		//System.out.println(stems);
+		 
+		for (String stem : stems) {
+			TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
+			if (innerMap != null) {
+				TreeSet<Integer> integers = innerMap.get(path.toString());
+				if (integers != null) {
+					integers.add(count);
+				}
+				
+				//System.out.println(integers);
+			} else {
+				//System.out.println(stem);
+				TreeSet<Integer> integers = new TreeSet<Integer>();
+				integers.add(count);
+				TreeMap<String, TreeSet<Integer>> fileAndInteger = new TreeMap<String, TreeSet<Integer>>();
+				fileAndInteger.put(path.toString(), integers);
+				invertedIndex.put(stem, fileAndInteger);
+				
+			}
+			count += 1;
+		}
+		
 		
 		
 	}
