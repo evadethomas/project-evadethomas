@@ -34,6 +34,7 @@ public class getJsonFile {
 		
 		
 		boolean hasText = false;
+		boolean hasIndex = false;
 		
 		for (Entry<String, String> entry : map.entrySet()) {
 			
@@ -82,32 +83,27 @@ public class getJsonFile {
 			    	}
 			    	
 		    } else if (key == "-index") {
-		    	System.out.println(value);
-//		    		if (value == null) {
-//		    			Path indexPath = Paths.get("index.json");
-//				    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
-//		    		} else {
-//		    			Path indexPath = Paths.get("index-simple-hello.json");
-//				    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
-//		    		}
-		    			
 		    	
-		    	
+		    	hasIndex = true;
+		    	System.out.println("is true");
 		    	
 		    }
 		    
-		    Path indexPath = Paths.get(map.get("-index"));
-		    System.out.println(indexPath);
-	    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
+	    	
 		    	
 		    } 
-		    //CITE: guidance on counting without splitting from Stack Overflow
-		    
-		   
-		    
-		
-		   
-		//for committing tes
+		String indexFileName = map.get("-index");
+	    
+	    if (indexFileName == null) {
+	    	if (hasIndex == true) {
+		    	Path defaultIndexPath = Paths.get("index.json");
+		    	JsonWriter.writeObjectNested(invertedIndex, defaultIndexPath);
+	    	}
+	    } else {
+	    	
+		    	Path indexPath = Paths.get(indexFileName);
+		    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
+	    }
 		
 	}
 	
@@ -124,10 +120,20 @@ public class getJsonFile {
 		for (String stem : stems) {
 			TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
 			if (innerMap != null) {
+				
 				TreeSet<Integer> integers = innerMap.get(path.toString());
 				if (integers != null) {
 					integers.add(count);
+					innerMap.put(path.toString(), integers);
+				} else {
+					TreeSet<Integer> newIntegers = new TreeSet<Integer>();
+					newIntegers.add(count);
+					innerMap.put(path.toString(), newIntegers);
 				}
+				
+				
+				
+				
 				
 				//System.out.println(integers);
 			} else {
