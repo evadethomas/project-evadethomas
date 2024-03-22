@@ -18,6 +18,9 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+/*
+ * TODO Clean up
+ */
 
 public class getJsonFile {
 	
@@ -118,6 +121,7 @@ public class getJsonFile {
 		//System.out.println(stems);
 		 
 		for (String stem : stems) {
+			// TODO Move this logic into the inverted index add method
 			TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
 			if (innerMap != null) {
 				
@@ -183,6 +187,36 @@ public class getJsonFile {
 		
 	}
 
+	/*
+	 * TODO
+	 * 
+	 * Create 2 new classes instead of this one
+	 * 
+	 * 1) InvertedIndex data structure class
+	 * 
+	 * TreeMap<String, Integer> countMap, 
+	 * TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex
+	 * 
+	 * addCount(String location, Integer count) --> countMap
+	 * addWord(String word, String location, Integer position) --> invertedIndex
+	 * 
+	 * ...eventually (after working again), think about more generally useful methods
+	 * 
+	 * 2) InvertedIndexBuilder builder class
+	 * 
+
+public static void traverseDirectory(Path directory, InvertedIndex index) throws IOException {
+   same code except where you used to add to a list, call processFile
+}
+
+public static void processFile(Path path, InvertedIndex index) throws IOException {
+	ArrayList<String> stems = FileStemmer.listStems(path);
+	index.addCount(path.toString(), stems.size());
+	
+	for each word...
+	   index.addWord(...)
+	
+	 */
 		
 	
 }

@@ -70,6 +70,8 @@ public class JsonWriter {
 		writer.write('"');
 	}
 
+	// TODO Find the remote lecture recording for how to refactor this class
+	
 	/**
 	 * Writes the elements as a pretty JSON array.
 	 *
