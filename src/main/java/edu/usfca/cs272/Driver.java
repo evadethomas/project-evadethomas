@@ -24,8 +24,9 @@ public class Driver {
 	 * inverted index.
 	 *
 	 * @param args flag/value pairs used to start this program
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// store initial start time
 		Instant start = Instant.now();
 
@@ -58,12 +59,12 @@ public class Driver {
 			}
 		}
 		*/
-		try {
+//		try {
 			//See Json class
 			getJsonFile files = new getJsonFile(args);
-		} catch (IOException e) {
-			System.out.println("Problem with getting the json files. See getJsonFile class.");
-		}
+//		} catch (IOException e) {
+//			System.out.println("Problem with getting the json files. See getJsonFile class.");
+//		}
 		
 		// calculate time elapsed and output
 		long elapsed = Duration.between(start, Instant.now()).toMillis();

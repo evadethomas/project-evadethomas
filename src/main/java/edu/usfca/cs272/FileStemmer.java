@@ -130,8 +130,18 @@ public class FileStemmer {
 	 * @see #listStems(String, Stemmer)
 	 */
 	public static ArrayList<String> listStems(Path input) throws IOException {
-		String line = Files.readString(input, UTF_8);
-		return listStems(line);
+		//Create a stemmer
+		
+		//Just path input will have IOExceptions
+		ArrayList<String> stems = new ArrayList<String>();
+		//Create array
+		try (BufferedReader reader = Files.newBufferedReader(input, UTF_8)) {
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				stems.addAll(listStems(line));
+			}
+		}
+		return stems;
 	}
 
 	/**
