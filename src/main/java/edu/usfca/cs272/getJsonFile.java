@@ -39,23 +39,23 @@ public class getJsonFile {
 		String counts = map.get("-counts");
 		String index = map.get("-index");
 		
-		
+		boolean containsCounts = map.containsKey("-counts");
+		hasText = map.containsKey("-text");
+		boolean containsIndex = map.containsKey("-index");
 		
 		if (text != null) {
 			checkDirectory(Paths.get(text));
-		} else {
-			hasText = false;
 		}
 		
 		if (counts != null) {
 			writeJson(Paths.get(counts));
-		} else {
+		} else if (containsCounts == true) {
 			writeJson(Paths.get("counts.json"));
 		}
 		
 		if (index != null) {
 			writeInvertedIndex(Paths.get(index));
-		} else {
+		} else if (containsIndex != false) {
 			writeInvertedIndex(Paths.get("index.json"));
 		}
 	}
@@ -115,8 +115,6 @@ public class getJsonFile {
 //		    	System.out.println("is true");
 //		    	
 //		    }
-		    
-	    	
 //		    	
 //		    } 
 //		
@@ -169,10 +167,6 @@ public class getJsonFile {
 
 	private static void processFile(Path path) throws IOException  {
 		
-		if (checkValidFile(path) != true) {
-			return;
-		}
-		
 		ArrayList<String> stems = FileStemmer.listStems(path);
 	
 		if (stems.size() != 0) {
@@ -211,7 +205,7 @@ public class getJsonFile {
 	}
 	
 	private static boolean checkValidFile(Path path) {
-		return (path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text")) && Files.isRegularFile(path);
+		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text") /*&& Files.isRegularFile(path)*/;
 	}
 
 
@@ -231,7 +225,10 @@ public class getJsonFile {
 				if (Files.isDirectory(path)) {
 					traverseDirectory(path);
 				} else {
+					if (checkValidFile(path)) {
 						processFile(path);
+					}
+					
 				    //use getCounts and add continuously
 				}
 				// note the duplicated logic above with traverse()!
