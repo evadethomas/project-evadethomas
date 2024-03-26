@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -140,6 +141,8 @@ public class FileStemmer {
 			while ((line = reader.readLine()) != null) {
 				stems.addAll(listStems(line));
 			}
+		} catch (NoSuchFileException e) {
+			return stems;
 		}
 		return stems;
 	}
