@@ -9,10 +9,6 @@ import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-/*
- * TODO Clean up
- */
-
 public class getJsonFile {
 	
 	
@@ -32,8 +28,6 @@ public class getJsonFile {
 		
 		ArgumentParser test = new ArgumentParser(args);
 		HashMap<String, String> map = test.getMap();
-		
-		//boolean hasIndex = false;
 		
 		String text = map.get("-text");
 		String counts = map.get("-counts");
@@ -59,89 +53,6 @@ public class getJsonFile {
 			writeInvertedIndex(Paths.get("index.json"));
 		}
 	}
-		
-		
-		//FOR TOMORROW EVA: SIMPLIFY THIS DOWN AND GET IT WORKING SO ITS EASIER TO TRANSFER
-//		
-//		for (Entry<String, String> entry : map.entrySet()) {
-//			
-//		    String key = entry.getKey();
-//		    String value = entry.getValue();
-//		    
-//		    if (key == "-text" && value != null) {
-//		    	
-//		    	File dirTest = new File(value);
-//		    	if (dirTest.isDirectory() == true) {
-//		    		
-//		    		ArrayList<Path> paths = new ArrayList<>();
-//		    		
-//		    		traverseDirectory(Paths.get(value), paths);
-//		    		
-//		    		for(Path path : paths) {
-//		    			
-//		    			processFile(path, countMap, invertedIndex);	
-//		    			
-//		    		}
-//		    		
-//		    	} else {
-//		    		Path path = Paths.get(value);
-//		    		
-//		    		processFile(path, countMap, invertedIndex);
-//		    	}
-//		    	
-//		    	hasText = true;
-//		    } else if (key == "-counts") {
-//		    	
-//			    	if (value == null) {
-//			    		
-//			    		Path currentPath = Paths.get("counts.json");
-//			    		
-//			    		if (hasText == true) {
-//			    			JsonWriter.writeObject(countMap, currentPath);
-//			    			//System.out.println("invertedIndex: " + invertedIndex);
-//				    	} else {
-//			    			JsonWriter.writeObject(emptyMap, currentPath);
-//			    		}
-//			    		
-//			    	} else {
-//			    		Path newFilePath = Paths.get(value);
-//				    	JsonWriter.writeObject(countMap, newFilePath);
-//				    	//System.out.println("invertedIndex: " + invertedIndex);
-//			    	}
-//			    	
-//		    } else if (key == "-index") {
-//		    	
-//		    	hasIndex = true;
-//		    	System.out.println("is true");
-//		    	
-//		    }
-//		    	
-//		    } 
-//		
-//		
-//		
-//	}
-//		
-
-
-
-//		String indexFileName = map.get("-index");
-//	    
-//	    if (indexFileName == null) {
-//	    	if (hasIndex == true) {
-//		    	Path defaultIndexPath = Paths.get("index.json");
-//		    	JsonWriter.writeObjectNested(invertedIndex, defaultIndexPath);
-//	    	}
-//	    } else {
-//	    	
-//		    	Path indexPath = Paths.get(indexFileName);
-//		    	JsonWriter.writeObjectNested(invertedIndex, indexPath);
-//	    }
-//		
-//	}
-	
-	
-//}
 
 	private void writeInvertedIndex(Path indexFilePath) throws IOException {
 		JsonWriter.writeObjectNested(invertedIndex, indexFilePath);
@@ -168,15 +79,15 @@ public class getJsonFile {
 	private static void processFile(Path path) throws IOException  {
 		
 		ArrayList<String> stems = FileStemmer.listStems(path);
-	
-		if (stems.size() != 0) {
-			countMap.put(path.toString(), stems.size());
-		}
+		
+		addCount(path.toString(), stems.size());
 		
 		int count = 1;
 		 
 		for (String stem : stems) {
 			// TODO Move this logic into the inverted index add method
+			
+			//All of this can b
 			TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
 			if (innerMap != null) {
 				
@@ -204,8 +115,16 @@ public class getJsonFile {
 		
 	}
 	
+	
+	
+	private static void addCount(String path, Integer size) {
+		if (size != 0) {
+			countMap.put(path, size);
+		}
+	}
+	
 	private static boolean checkValidFile(Path path) {
-		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text") /*&& Files.isRegularFile(path)*/;
+		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text");
 	}
 
 
@@ -249,7 +168,7 @@ public class getJsonFile {
 	 * TreeMap<String, Integer> countMap, 
 	 * TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex
 	 * 
-	 * addCount(String location, Integer count) --> countMap
+	 * addCount(String location, Integer count) --> countMap DONE
 	 * addWord(String word, String location, Integer position) --> invertedIndex
 	 * 
 	 * ...eventually (after working again), think about more generally useful methods
