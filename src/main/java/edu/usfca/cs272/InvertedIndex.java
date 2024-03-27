@@ -9,7 +9,6 @@ public class InvertedIndex {
 
 	private static TreeMap<String, Integer> countMap;
 	private static TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex;
-	private static boolean hasText = true;
 	
 	public InvertedIndex() {
 		invertedIndex = new TreeMap<String, TreeMap<String, TreeSet<Integer>>>();
