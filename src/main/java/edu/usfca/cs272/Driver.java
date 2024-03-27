@@ -11,7 +11,6 @@ import java.util.Arrays;
  * @author Eva DeThomas
  * @author CS 272 Software Development (University of San Francisco)
  * @version Spring 2024
- * commit check
  */
 //Don't run on driver, run on tests. Find outline window if you lost it.
 public class Driver {
@@ -35,7 +34,7 @@ public class Driver {
 
 		ArgumentParser parsedFlags = new ArgumentParser(args);
 		boolean hasText = false;
-		//Question - can I make these all into different funtions? They're so annoying looking.
+
 		if (parsedFlags.hasFlag("-text")) {
 			hasText = true;
 			Path path = parsedFlags.getPath("-text");
@@ -67,7 +66,6 @@ public class Driver {
 			}
 		}		
 		
-		// calculate time elapsed and output
 		long elapsed = Duration.between(start, Instant.now()).toMillis();
 		double seconds = (double) elapsed / Duration.ofSeconds(1).toMillis();
 		System.out.printf("Elapsed: %f seconds%n", seconds);
@@ -78,8 +76,3 @@ public class Driver {
 	
 
 }
-
-/*
- * TODO 
-handle warnings
-*/

@@ -33,7 +33,6 @@ public class InvertedIndexBuilder {
 		}
 	}
 	
-	//builder
 	static private boolean checkValidFile(Path path) {
 		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text");
 	}
