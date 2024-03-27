@@ -5,7 +5,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 
+// TODO
 //ADD DOCUMENTATION/comments
+//Add javadoc warnings to eclipse
 //RENAME VARS
 //"Save actions - remove unused imports"
 //Save actions white space
