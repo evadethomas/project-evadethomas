@@ -93,11 +93,12 @@ public class FileStemmer {
 	 * @see Stemmer#stem(CharSequence)
 	 * @see #addStems(String, Stemmer, Collection)
 	 */
+	
 	public static ArrayList<String> listStems(String line, Stemmer stemmer) {
-		Collection<String> collection = new ArrayList<String>();
-		addStems(line, stemmer, collection);
+		ArrayList<String> stems = new ArrayList<String>();
+		addStems(line, stemmer, stems);
 		//casting collection to arrayList<String> type
-		return (ArrayList<String>) collection;
+		return stems;
 		//throw new UnsupportedOperationException("Not yet implemented.");
 	}
 
@@ -218,7 +219,7 @@ public class FileStemmer {
 		//Creating empty arrayList to hold each line's uniqueStem results
 		ArrayList<TreeSet<String>> list = new ArrayList<>();
 		
-		//Use try catch to impliment bufferedReader and get each line individually
+		//Use try catch to implement bufferedReader and get each line individually
 		try (BufferedReader reader = new BufferedReader(new FileReader(input.toFile()))) {
             String line;
             while ((line = reader.readLine()) != null) {

@@ -1,4 +1,5 @@
 package edu.usfca.cs272;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.HashMap;
 
@@ -42,15 +43,14 @@ public class ArgumentParser {
 	 * @see Character#isDigit(int)
 	 * @see Character#isWhitespace(int)
 	 */
+	
+	
 	public static boolean isFlag(String arg) {
 		//ensures edge cases are functional, empty arg handled and simple dash handled.
-		if ((arg != null && arg.length() > 1) && arg.charAt(0) == '-') {
-			//returning arg as a flag if the 1st char after the dash is not followed by a digit or whitespace
-			if (!Character.isDigit(arg.charAt(1)) && !Character.isWhitespace(arg.charAt(1))) {
-				return true;
-			}
-		}
-		return false;
+		//returning arg as a flag if the 1st char after the dash is not followed by a digit or whitespace
+		return (((arg != null && arg.length() > 1) && arg.startsWith("-")) && (!Character.isDigit(arg.codePointAt(1)) && !Character.isWhitespace(arg.codePointAt(1))));
+			
+		
 	}
 
 	/**
@@ -174,13 +174,19 @@ public class ArgumentParser {
 	
 	public Path getPath(String flag, Path backup) {
 		//CITE: Sophie's path example files
-		String val = getMap().get(flag);
-		if (val != null) {
-			Path test = Path.of(getMap().get(flag));
-			return test;
-		} else {
-			return backup;
+		try {
+			String val = getMap().get(flag);
+			if (val != null) {
+				Path test = Path.of(getMap().get(flag));
+				return test;
+			} else {
+				return backup;
+			}
+		} catch (InvalidPathException e) {
+			System.out.println("Invalid path");
+			return null;
 		}
+		
 	}
 
 	/**
@@ -216,7 +222,7 @@ public class ArgumentParser {
 		try {
 			String num = getMap().get(flag);
 			return Integer.parseInt(num);
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | NullPointerException e) {
 			return backup;
 		}
 	}
