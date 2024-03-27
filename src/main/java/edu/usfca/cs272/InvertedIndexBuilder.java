@@ -12,18 +12,18 @@ public class InvertedIndexBuilder {
 		checkDirectory(path);
 	}
 	
-	public static void checkDirectory(Path originalFile) throws IOException {
-    	if (Files.isDirectory(originalFile) == true) {
-    		traverseDirectory(originalFile);
+	public static void checkDirectory(Path rootFile) throws IOException {
+    	if (Files.isDirectory(rootFile) == true) {
+    		traverseDirectory(rootFile);
     	} else {
-    		processFile(originalFile);
+    		processFile(rootFile);
     	}
     	
 	}
 	
 	public static void traverseDirectory(Path directory) throws IOException {
-		try (DirectoryStream<Path> listing = Files.newDirectoryStream(directory)) {
-			for (Path path : listing) {
+		try (DirectoryStream<Path> fileList = Files.newDirectoryStream(directory)) {
+			for (Path path : fileList) {
 				if (Files.isDirectory(path)) {
 					traverseDirectory(path);
 				} else {

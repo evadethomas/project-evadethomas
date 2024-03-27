@@ -11,9 +11,6 @@ import java.util.Arrays;
 //RENAME VARS
 //"Save actions - remove unused imports"
 //Save actions white space
-//Take out Paths.get to Path.of
-//Refactor JsonWriter
-//Refactor rest of classes!
 
 /**
  * Class responsible for running this project based on the provided command-line
@@ -64,34 +61,34 @@ public class Driver {
         // Build inverted index from text file if specified
         if (parsedFlags.hasFlag("-text")) {
             hasText = true;
-            Path path = parsedFlags.getPath("-text");
+            Path textPath = parsedFlags.getPath("-text");
             try {
-                if (path != null) {
+                if (textPath != null) {
                     // Question: Is this bad??
-                    new InvertedIndexBuilder(path);
+                    new InvertedIndexBuilder(textPath);
                 }
             } catch (IOException e) {
-                System.out.println("Unable to build the inverted index from path: " + path);
+                System.out.println("Unable to build the inverted index from path: " + textPath);
             }
         }
 
         // Write inverted index to JSON file if specified
         if (parsedFlags.hasFlag("-index")) {
-            Path path = parsedFlags.getPath("-index", Path.of("index.json"));
+            Path indexPath = parsedFlags.getPath("-index", Path.of("index.json"));
             try {
-                invertedIndex.writeInvertedIndex(path);
+                invertedIndex.writeInvertedIndex(indexPath);
             } catch (IOException e) {
-                System.out.println("Unable to write the inverted index to path: " + path);
+                System.out.println("Unable to write the inverted index to path: " + indexPath);
             }
         }
 
         // Write word counts to JSON file if specified
         if (parsedFlags.hasFlag("-counts")) {
-            Path path = parsedFlags.getPath("-counts", Path.of("counts.json"));
+            Path countsPath = parsedFlags.getPath("-counts", Path.of("counts.json"));
             try {
-                invertedIndex.writeJson(path, hasText);
+                invertedIndex.writeJson(countsPath, hasText);
             } catch (IOException e) {
-                System.out.println("Unable to write the word counts to path: " + path);
+                System.out.println("Unable to write the word counts to path: " + countsPath);
             }
         }
 

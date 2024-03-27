@@ -217,20 +217,20 @@ public class FileStemmer {
 	public static ArrayList<TreeSet<String>> listUniqueStems(Path input) throws IOException {
 		//CITE: Based off chat GPT quick BufferedReader demonstration. 
 		//Creating empty arrayList to hold each line's uniqueStem results
-		ArrayList<TreeSet<String>> list = new ArrayList<>();
+		ArrayList<TreeSet<String>> stemList = new ArrayList<>();
 		
 		//Use try catch to implement bufferedReader and get each line individually
 		try (BufferedReader reader = new BufferedReader(new FileReader(input.toFile()))) {
             String line;
             while ((line = reader.readLine()) != null) {
             	//Add the TreeSet of each line to arrayList
-            	list.add(uniqueStems(line));
+            	stemList.add(uniqueStems(line));
             }
         } catch (IOException e) {
         	System.out.println("Exception in ArrayList function, problem with file path. See exception for more details: ");
             System.out.println(e.toString());
         }
 		
-		return list;
+		return stemList;
 	}
 }

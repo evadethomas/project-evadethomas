@@ -7,13 +7,13 @@ public class ArgumentParser {
 	/**
 	 * Stores command-line arguments in flag/value pairs.
 	 */
-	private final HashMap<String, String> map;
+	private final HashMap<String, String> flagValmap;
 
 	/**
 	 * Initializes this argument map.
 	 */
 	public ArgumentParser() {
-		this.map = new HashMap<>();
+		this.flagValmap = new HashMap<>();
 	}
 	/**
 	 * Initializes this argument map and then parsers the arguments into flag/value
@@ -247,6 +247,6 @@ public class ArgumentParser {
 		return this.getMap().toString();
 	}
 	public HashMap<String, String> getMap() {
-		return map;
+		return flagValmap;
 	}
 }

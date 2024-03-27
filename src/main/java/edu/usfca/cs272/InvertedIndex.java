@@ -28,23 +28,23 @@ public class InvertedIndex {
 	}
 	
 	static void addWord(String stem, String location, Integer count) {
-		TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
-		if (innerMap != null) {
-			TreeSet<Integer> integers = innerMap.get(location);
-			if (integers != null) {
-				integers.add(count);
-				innerMap.put(location, integers);
+		TreeMap<String, TreeSet<Integer>> locAndCountMap = invertedIndex.get(stem);
+		if (locAndCountMap != null) {
+			TreeSet<Integer> indexes = locAndCountMap.get(location);
+			if (indexes != null) {
+				indexes.add(count);
+				locAndCountMap.put(location, indexes);
 			} else {
 				TreeSet<Integer> newIntegers = new TreeSet<Integer>();
 				newIntegers.add(count);
-				innerMap.put(location, newIntegers);
+				locAndCountMap.put(location, newIntegers);
 			}
 		} else {
-			TreeSet<Integer> integers = new TreeSet<Integer>();
-			integers.add(count);
-			TreeMap<String, TreeSet<Integer>> fileAndInteger = new TreeMap<String, TreeSet<Integer>>();
-			fileAndInteger.put(location, integers);
-			invertedIndex.put(stem, fileAndInteger);
+			TreeSet<Integer> indexes = new TreeSet<Integer>();
+			indexes.add(count);
+			TreeMap<String, TreeSet<Integer>> newLocAndCountMap = new TreeMap<String, TreeSet<Integer>>();
+			newLocAndCountMap.put(location, indexes);
+			invertedIndex.put(stem, newLocAndCountMap);
 		}
 	}
 	
