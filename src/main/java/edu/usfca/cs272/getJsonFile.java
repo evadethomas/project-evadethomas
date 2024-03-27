@@ -10,15 +10,16 @@ import java.util.TreeSet;
 
 public class getJsonFile {
 	
-	
+	//index
 	private static TreeMap<String, Integer> countMap;
-	
+	//builder? Do I need this?
 	private static HashMap<String, Integer> emptyMap;
-	
+	//index
 	private static TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex;
-	
+	//builder
 	private static boolean hasText = true;
 	
+	//driver
 	public getJsonFile(String[] args) throws IOException {
 		
 		countMap = new TreeMap<String, Integer>();
@@ -57,10 +58,12 @@ public class getJsonFile {
 		}		
 	}
 
+	//Index
 	private void writeInvertedIndex(Path indexFilePath) throws IOException {
 		JsonWriter.writeObjectNested(invertedIndex, indexFilePath);
 	}
 	
+	//Index
 	private void writeJson(Path counts) throws IOException {
 		if (hasText == true) {
 			JsonWriter.writeObject(countMap, counts);
@@ -69,6 +72,7 @@ public class getJsonFile {
 		}
 	}
 
+	//Builder
 	private void checkDirectory(Path originalFile) throws IOException {
 		
     	if (Files.isDirectory(originalFile) == true) {
@@ -78,15 +82,12 @@ public class getJsonFile {
     	}
     	
 	}
-	
+	//builder
 	private static void processFile(Path path) throws IOException  {
 		
 		ArrayList<String> stems = FileStemmer.listStems(path);
-		
 		addCount(path.toString(), stems.size());
-		
 		int count = 1;
-		 
 		for (String stem : stems) {
 			addWord(stem, path.toString(), count);
 			count += 1;
@@ -95,7 +96,7 @@ public class getJsonFile {
 	}
 	
 	
-	
+	//index
 	private static void addCount(String path, Integer size) {
 		if (size != 0) {
 			countMap.put(path, size);
@@ -106,10 +107,10 @@ public class getJsonFile {
 		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text");
 	}
 
-
+	//builder
 	private static void traverseDirectory(Path directory) throws IOException {
 		try (DirectoryStream<Path> listing = Files.newDirectoryStream(directory)) {
-			// use an enhanced-for or for-each loop for efficiency and simplicity
+			// use an enhanced-for or for-each loop for efficiency and simplicity??
 			for (Path path : listing) {
 				if (Files.isDirectory(path)) {
 					traverseDirectory(path);
@@ -121,7 +122,7 @@ public class getJsonFile {
 			}
 		}
 	}
-	
+	//index
 	private static void addWord(String stem, String location, Integer count) {
 		TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
 		if (innerMap != null) {
