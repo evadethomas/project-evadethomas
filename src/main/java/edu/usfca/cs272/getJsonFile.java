@@ -26,32 +26,84 @@ public class getJsonFile {
 		emptyMap = new HashMap<String, Integer>();
 		invertedIndex = new TreeMap<String, TreeMap<String, TreeSet<Integer>>>();
 		
-		ArgumentParser test = new ArgumentParser(args);
-		HashMap<String, String> map = test.getMap();
+		ArgumentParser parsedFlags = new ArgumentParser(args);
+//		HashMap<String, String> map = flagMap.getMap();
 		
-		String text = map.get("-text");
-		String counts = map.get("-counts");
-		String index = map.get("-index");
+//		String text = map.get("-text");
+//		String counts = map.get("-counts");
+//		String index = map.get("-index");
+//		
+//		boolean containsCounts = map.containsKey("-counts");
+//		hasText = map.containsKey("-text");
+//		boolean containsIndex = map.containsKey("-index");
+//		
+//		if (text != null) {
+//			checkDirectory(Paths.get(text));
+//		}
+//		
+//		if (counts != null) {
+//			writeJson(Paths.get(counts));
+//		} else if (containsCounts == true) {
+//			writeJson(Paths.get("counts.json"));
+//		}
+//		
+//		if (index != null) {
+//			writeInvertedIndex(Paths.get(index));
+//		} else if (containsIndex != false) {
+//			writeInvertedIndex(Paths.get("index.json"));
+//		}
 		
-		boolean containsCounts = map.containsKey("-counts");
-		hasText = map.containsKey("-text");
-		boolean containsIndex = map.containsKey("-index");
-		
-		if (text != null) {
-			checkDirectory(Paths.get(text));
+		if (parsedFlags.hasFlag("-text")) {
+			Path path = parsedFlags.getPath("-text");
+			try {
+				if (path != null) {
+					checkDirectory(path);
+				}
+			} catch (IOException e) {
+				System.out.println("Unable to build the inverted index from path: " + path);
+			}
 		}
 		
-		if (counts != null) {
-			writeJson(Paths.get(counts));
-		} else if (containsCounts == true) {
-			writeJson(Paths.get("counts.json"));
+		if (parsedFlags.hasFlag("-index")) {
+			Path path = parsedFlags.getPath("-index", Path.of("index.json"));
+			try {
+				writeInvertedIndex(path);
+			} catch (IOException e) {
+				System.out.println("Unable to build the inverted index from path: " + path);
+			}
 		}
 		
-		if (index != null) {
-			writeInvertedIndex(Paths.get(index));
-		} else if (containsIndex != false) {
-			writeInvertedIndex(Paths.get("index.json"));
+		if (parsedFlags.hasFlag("-counts")) {
+			Path path = parsedFlags.getPath("-counts", Path.of("counts.json"));
+			try {
+				writeJson(path);
+			} catch (IOException e) {
+				System.out.println("Unable to build the inverted index from path: " + path);
+			}
 		}
+		
+//		if (parser.hasFlag("-text")) {
+//			Path path = parser.getPath("-text");
+//			
+//			try {
+//				1 or 2 lines of code
+//			}
+//			catch ( ) {
+//				System.out.println("Unable to build the inverted index from path: " + path);
+//			}
+//		}
+//		
+//		if (parser.hasFlag("-index")) {
+//			Path path = parser.getPath("-index", Path.of("index.json"));
+//			
+//			try {
+//				JsonWriter.writeObjectNested(invertedIndex, path);
+//			}
+//			catch ( ) {
+//				System.out.println("Unable to build the inverted index from path: " + path);
+//			}
+//		}
+		
 	}
 
 	private void writeInvertedIndex(Path indexFilePath) throws IOException {
@@ -74,8 +126,8 @@ public class getJsonFile {
     		processFile(originalFile);
     	}
     	
-	} 
-
+	}
+	
 	private static void processFile(Path path) throws IOException  {
 		
 		ArrayList<String> stems = FileStemmer.listStems(path);
@@ -85,15 +137,10 @@ public class getJsonFile {
 		int count = 1;
 		 
 		for (String stem : stems) {
-			// TODO Move this logic into the inverted index add method
 			addWord(stem, path.toString(), count);
-			//All of this can b
-			
 			count += 1;
 		}
-		
-		
-		
+			
 	}
 	
 	
@@ -122,7 +169,6 @@ public class getJsonFile {
 				}
 			}
 		}
-		
 	}
 	
 	private static void addWord(String stem, String location, Integer count) {
@@ -144,7 +190,6 @@ public class getJsonFile {
 			TreeMap<String, TreeSet<Integer>> fileAndInteger = new TreeMap<String, TreeSet<Integer>>();
 			fileAndInteger.put(location, integers);
 			invertedIndex.put(stem, fileAndInteger);
-			
 		}
 	}
 
@@ -172,7 +217,7 @@ public static void traverseDirectory(Path directory, InvertedIndex index) throws
 
 public static void processFile(Path path, InvertedIndex index) throws IOException {
 	ArrayList<String> stems = FileStemmer.listStems(path);
-	index.addCount(path.toString(), stems.size());
+	index.addCount(path.toString(), stems.size()); DONE!!
 	
 	for each word...
 	   index.addWord(...)
