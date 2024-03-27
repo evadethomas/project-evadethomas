@@ -38,7 +38,6 @@ public class InvertedIndexBuilder {
 	}
 	
 	public static void processFile(Path path) throws IOException  {
-		
 		ArrayList<String> stems = FileStemmer.listStems(path);
 		InvertedIndex.addCount(path.toString(), stems.size());
 		int count = 1;
