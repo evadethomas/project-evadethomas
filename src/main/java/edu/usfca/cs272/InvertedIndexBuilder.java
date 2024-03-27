@@ -8,8 +8,11 @@ import java.util.ArrayList;
 
 public class InvertedIndexBuilder {
 	
+	public InvertedIndexBuilder(Path path) throws IOException {
+		checkDirectory(path);
+	}
 	
-	public void checkDirectory(Path originalFile) throws IOException {
+	public static void checkDirectory(Path originalFile) throws IOException {
     	if (Files.isDirectory(originalFile) == true) {
     		traverseDirectory(originalFile);
     	} else {
@@ -45,7 +48,6 @@ public class InvertedIndexBuilder {
 			InvertedIndex.addWord(stem, path.toString(), count);
 			count += 1;
 		}
-			
 	}
 	
 	

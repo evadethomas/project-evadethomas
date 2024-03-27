@@ -8,7 +8,8 @@ import java.util.Arrays;
 //ADD DOCUMENTATION
 //RENAME VARS
 //"Save actions - remove unused imports"
-//
+//Take out Paths.get to Path.of
+
 
 /**
  * Class responsible for running this project based on the provided command-line
@@ -45,8 +46,8 @@ public class Driver {
 			Path path = parsedFlags.getPath("-text");
 			try {
 				if (path != null) {
-					InvertedIndexBuilder builder = new InvertedIndexBuilder();
-					builder.checkDirectory(path);
+					//Question: Is this bad??
+					new InvertedIndexBuilder(path);
 				}
 			} catch (IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + path);
