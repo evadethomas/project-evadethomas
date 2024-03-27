@@ -86,28 +86,9 @@ public class getJsonFile {
 		 
 		for (String stem : stems) {
 			// TODO Move this logic into the inverted index add method
-			
+			addWord(stem, path.toString(), count);
 			//All of this can b
-			TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
-			if (innerMap != null) {
-				
-				TreeSet<Integer> integers = innerMap.get(path.toString());
-				if (integers != null) {
-					integers.add(count);
-					innerMap.put(path.toString(), integers);
-				} else {
-					TreeSet<Integer> newIntegers = new TreeSet<Integer>();
-					newIntegers.add(count);
-					innerMap.put(path.toString(), newIntegers);
-				}
-			} else {
-				TreeSet<Integer> integers = new TreeSet<Integer>();
-				integers.add(count);
-				TreeMap<String, TreeSet<Integer>> fileAndInteger = new TreeMap<String, TreeSet<Integer>>();
-				fileAndInteger.put(path.toString(), integers);
-				invertedIndex.put(stem, fileAndInteger);
-				
-			}
+			
 			count += 1;
 		}
 		
@@ -129,15 +110,6 @@ public class getJsonFile {
 
 
 	private static void traverseDirectory(Path directory) throws IOException {
-		/*
-		 * The try-with-resources block makes sure we close the directory stream when
-		 * done, to make sure there aren't any issues later when accessing this
-		 * directory.
-		 *
-		 * Note, however, we are still not catching any exceptions. This type of try
-		 * block does not have to be accompanied with a catch block. (You should,
-		 * however, do something about the exception.)
-		 */
 		try (DirectoryStream<Path> listing = Files.newDirectoryStream(directory)) {
 			// use an enhanced-for or for-each loop for efficiency and simplicity
 			for (Path path : listing) {
@@ -147,15 +119,33 @@ public class getJsonFile {
 					if (checkValidFile(path)) {
 						processFile(path);
 					}
-					
-				    //use getCounts and add continuously
 				}
-				// note the duplicated logic above with traverse()!
-				// avoid the duplicated code by just calling the traverse() method
-				// (requires designing it just right to make this possible)
 			}
 		}
 		
+	}
+	
+	private static void addWord(String stem, String location, Integer count) {
+		TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
+		if (innerMap != null) {
+			
+			TreeSet<Integer> integers = innerMap.get(location);
+			if (integers != null) {
+				integers.add(count);
+				innerMap.put(location, integers);
+			} else {
+				TreeSet<Integer> newIntegers = new TreeSet<Integer>();
+				newIntegers.add(count);
+				innerMap.put(location, newIntegers);
+			}
+		} else {
+			TreeSet<Integer> integers = new TreeSet<Integer>();
+			integers.add(count);
+			TreeMap<String, TreeSet<Integer>> fileAndInteger = new TreeMap<String, TreeSet<Integer>>();
+			fileAndInteger.put(location, integers);
+			invertedIndex.put(stem, fileAndInteger);
+			
+		}
 	}
 
 	/*
@@ -178,7 +168,7 @@ public class getJsonFile {
 
 public static void traverseDirectory(Path directory, InvertedIndex index) throws IOException {
    same code except where you used to add to a list, call processFile
-}
+} DONE
 
 public static void processFile(Path path, InvertedIndex index) throws IOException {
 	ArrayList<String> stems = FileStemmer.listStems(path);
