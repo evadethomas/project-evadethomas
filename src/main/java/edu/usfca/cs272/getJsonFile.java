@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -27,31 +26,6 @@ public class getJsonFile {
 		invertedIndex = new TreeMap<String, TreeMap<String, TreeSet<Integer>>>();
 		
 		ArgumentParser parsedFlags = new ArgumentParser(args);
-//		HashMap<String, String> map = flagMap.getMap();
-		
-//		String text = map.get("-text");
-//		String counts = map.get("-counts");
-//		String index = map.get("-index");
-//		
-//		boolean containsCounts = map.containsKey("-counts");
-//		hasText = map.containsKey("-text");
-//		boolean containsIndex = map.containsKey("-index");
-//		
-//		if (text != null) {
-//			checkDirectory(Paths.get(text));
-//		}
-//		
-//		if (counts != null) {
-//			writeJson(Paths.get(counts));
-//		} else if (containsCounts == true) {
-//			writeJson(Paths.get("counts.json"));
-//		}
-//		
-//		if (index != null) {
-//			writeInvertedIndex(Paths.get(index));
-//		} else if (containsIndex != false) {
-//			writeInvertedIndex(Paths.get("index.json"));
-//		}
 		
 		if (parsedFlags.hasFlag("-text")) {
 			Path path = parsedFlags.getPath("-text");
@@ -80,30 +54,7 @@ public class getJsonFile {
 			} catch (IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + path);
 			}
-		}
-		
-//		if (parser.hasFlag("-text")) {
-//			Path path = parser.getPath("-text");
-//			
-//			try {
-//				1 or 2 lines of code
-//			}
-//			catch ( ) {
-//				System.out.println("Unable to build the inverted index from path: " + path);
-//			}
-//		}
-//		
-//		if (parser.hasFlag("-index")) {
-//			Path path = parser.getPath("-index", Path.of("index.json"));
-//			
-//			try {
-//				JsonWriter.writeObjectNested(invertedIndex, path);
-//			}
-//			catch ( ) {
-//				System.out.println("Unable to build the inverted index from path: " + path);
-//			}
-//		}
-		
+		}		
 	}
 
 	private void writeInvertedIndex(Path indexFilePath) throws IOException {
