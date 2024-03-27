@@ -25,46 +25,16 @@ public class getJsonFile {
 		countMap = new TreeMap<String, Integer>();
 		emptyMap = new HashMap<String, Integer>();
 		invertedIndex = new TreeMap<String, TreeMap<String, TreeSet<Integer>>>();
-		
-		ArgumentParser parsedFlags = new ArgumentParser(args);
-		
-		if (parsedFlags.hasFlag("-text")) {
-			Path path = parsedFlags.getPath("-text");
-			try {
-				if (path != null) {
-					checkDirectory(path);
-				}
-			} catch (IOException e) {
-				System.out.println("Unable to build the inverted index from path: " + path);
-			}
-		}
-		
-		if (parsedFlags.hasFlag("-index")) {
-			Path path = parsedFlags.getPath("-index", Path.of("index.json"));
-			try {
-				writeInvertedIndex(path);
-			} catch (IOException e) {
-				System.out.println("Unable to build the inverted index from path: " + path);
-			}
-		}
-		
-		if (parsedFlags.hasFlag("-counts")) {
-			Path path = parsedFlags.getPath("-counts", Path.of("counts.json"));
-			try {
-				writeJson(path);
-			} catch (IOException e) {
-				System.out.println("Unable to build the inverted index from path: " + path);
-			}
-		}		
+			
 	}
 
 	//Index
-	private void writeInvertedIndex(Path indexFilePath) throws IOException {
+	void writeInvertedIndex(Path indexFilePath) throws IOException {
 		JsonWriter.writeObjectNested(invertedIndex, indexFilePath);
 	}
 	
 	//Index
-	private void writeJson(Path counts) throws IOException {
+	void writeJson(Path counts) throws IOException {
 		if (hasText == true) {
 			JsonWriter.writeObject(countMap, counts);
     	} else {
@@ -73,7 +43,7 @@ public class getJsonFile {
 	}
 
 	//Builder
-	private void checkDirectory(Path originalFile) throws IOException {
+	void checkDirectory(Path originalFile) throws IOException {
 		
     	if (Files.isDirectory(originalFile) == true) {
     		traverseDirectory(originalFile);
@@ -103,6 +73,7 @@ public class getJsonFile {
 		}
 	}
 	
+	//builder
 	private static boolean checkValidFile(Path path) {
 		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text");
 	}
@@ -123,6 +94,7 @@ public class getJsonFile {
 		}
 	}
 	//index
+	//FIX VAR NAMES!
 	private static void addWord(String stem, String location, Integer count) {
 		TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
 		if (innerMap != null) {

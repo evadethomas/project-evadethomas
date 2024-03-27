@@ -32,39 +32,45 @@ public class Driver {
 
 		System.out.println("Working Directory: " + 	Path.of(".").toAbsolutePath().normalize().getFileName());
 		System.out.println("Arguments: " + Arrays.toString(args));
+		
+		getJsonFile files = new getJsonFile(args);
 
-		/* TODO 
-		ArgumentParser parser = new ArgumentParser(args);
-		InvertedIndex index = new InvertedIndex();
+		ArgumentParser parsedFlags = new ArgumentParser(args);
 		
-		if (parser.hasFlag("-text")) {
-			Path path = parser.getPath("-text");
-			
+		if (parsedFlags.hasFlag("-text")) {
+			Path path = parsedFlags.getPath("-text");
 			try {
-				1 or 2 lines of code
-			}
-			catch ( ) {
+				if (path != null) {
+					files.checkDirectory(path);
+				}
+			} catch (IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + path);
 			}
 		}
 		
-		if (parser.hasFlag("-index")) {
-			Path path = parser.getPath("-index", Path.of("index.json"));
-			
+		if (parsedFlags.hasFlag("-index")) {
+			Path path = parsedFlags.getPath("-index", Path.of("index.json"));
 			try {
-				JsonWriter.writeObjectNested(invertedIndex, path);
-			}
-			catch ( ) {
+				files.writeInvertedIndex(path);
+			} catch (IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + path);
 			}
 		}
-		*/
+		
+		if (parsedFlags.hasFlag("-counts")) {
+			Path path = parsedFlags.getPath("-counts", Path.of("counts.json"));
+			try {
+				files.writeJson(path);
+			} catch (IOException e) {
+				System.out.println("Unable to build the inverted index from path: " + path);
+			}
+		}		
 		
 		
 		
 //		try {
 			//See Json class
-			getJsonFile files = new getJsonFile(args);
+			
 //		} catch (IOException e) {
 //			System.out.println("Problem with getting the json files. See getJsonFile class.");
 //		}
