@@ -30,7 +30,6 @@ public class InvertedIndex {
 	static void addWord(String stem, String location, Integer count) {
 		TreeMap<String, TreeSet<Integer>> innerMap = invertedIndex.get(stem);
 		if (innerMap != null) {
-			
 			TreeSet<Integer> integers = innerMap.get(location);
 			if (integers != null) {
 				integers.add(count);
@@ -54,9 +53,4 @@ public class InvertedIndex {
 			countMap.put(path, size);
 		}
 	}
-
-	
-	
-	
-	
 }

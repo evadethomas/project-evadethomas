@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class InvertedIndexBuilder {
 	
 	
-	void checkDirectory(Path originalFile) throws IOException {
+	public void checkDirectory(Path originalFile) throws IOException {
     	if (Files.isDirectory(originalFile) == true) {
     		traverseDirectory(originalFile);
     	} else {
@@ -18,9 +18,8 @@ public class InvertedIndexBuilder {
     	
 	}
 	
-	static void traverseDirectory(Path directory) throws IOException {
+	public static void traverseDirectory(Path directory) throws IOException {
 		try (DirectoryStream<Path> listing = Files.newDirectoryStream(directory)) {
-			// use an enhanced-for or for-each loop for efficiency and simplicity??
 			for (Path path : listing) {
 				if (Files.isDirectory(path)) {
 					traverseDirectory(path);
@@ -31,13 +30,14 @@ public class InvertedIndexBuilder {
 				}
 			}
 		}
+		
 	}
 	
-	static private boolean checkValidFile(Path path) {
+	static public boolean checkValidFile(Path path) {
 		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text");
 	}
 	
-	static void processFile(Path path) throws IOException  {
+	public static void processFile(Path path) throws IOException  {
 		
 		ArrayList<String> stems = FileStemmer.listStems(path);
 		InvertedIndex.addCount(path.toString(), stems.size());

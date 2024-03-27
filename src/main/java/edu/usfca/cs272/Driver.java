@@ -4,6 +4,12 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+
+//ADD DOCUMENTATION
+//RENAME VARS
+//"Save actions - remove unused imports"
+//
+
 /**
  * Class responsible for running this project based on the provided command-line
  * arguments. See the README for details.
@@ -28,7 +34,6 @@ public class Driver {
 
 		System.out.println("Working Directory: " + 	Path.of(".").toAbsolutePath().normalize().getFileName());
 		System.out.println("Arguments: " + Arrays.toString(args));
-	
 		
 		InvertedIndex InvIndex = new InvertedIndex();
 
@@ -64,7 +69,7 @@ public class Driver {
 			} catch (IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + path);
 			}
-		}		
+		}
 		
 		long elapsed = Duration.between(start, Instant.now()).toMillis();
 		double seconds = (double) elapsed / Duration.ofSeconds(1).toMillis();
