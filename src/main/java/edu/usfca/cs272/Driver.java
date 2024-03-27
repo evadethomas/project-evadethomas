@@ -5,8 +5,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.HashMap;
-
 /**
  * Class responsible for running this project based on the provided command-line
  * arguments. See the README for details.
@@ -32,16 +30,20 @@ public class Driver {
 
 		System.out.println("Working Directory: " + 	Path.of(".").toAbsolutePath().normalize().getFileName());
 		System.out.println("Arguments: " + Arrays.toString(args));
+	
 		
-		getJsonFile files = new getJsonFile(args);
+		InvertedIndex InvIndex = new InvertedIndex();
 
 		ArgumentParser parsedFlags = new ArgumentParser(args);
-		
+		boolean hasText = false;
+		//Question - can I make these all into different funtions? They're so annoying looking.
 		if (parsedFlags.hasFlag("-text")) {
+			hasText = true;
 			Path path = parsedFlags.getPath("-text");
 			try {
 				if (path != null) {
-					files.checkDirectory(path);
+					InvertedIndexBuilder builder = new InvertedIndexBuilder();
+					builder.checkDirectory(path);
 				}
 			} catch (IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + path);
@@ -51,7 +53,7 @@ public class Driver {
 		if (parsedFlags.hasFlag("-index")) {
 			Path path = parsedFlags.getPath("-index", Path.of("index.json"));
 			try {
-				files.writeInvertedIndex(path);
+				InvIndex.writeInvertedIndex(path);
 			} catch (IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + path);
 			}
@@ -60,20 +62,11 @@ public class Driver {
 		if (parsedFlags.hasFlag("-counts")) {
 			Path path = parsedFlags.getPath("-counts", Path.of("counts.json"));
 			try {
-				files.writeJson(path);
+				InvIndex.writeJson(path, hasText);
 			} catch (IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + path);
 			}
 		}		
-		
-		
-		
-//		try {
-			//See Json class
-			
-//		} catch (IOException e) {
-//			System.out.println("Problem with getting the json files. See getJsonFile class.");
-//		}
 		
 		// calculate time elapsed and output
 		long elapsed = Duration.between(start, Instant.now()).toMillis();
@@ -82,29 +75,12 @@ public class Driver {
 		
 		
 	}
+	
+	
 
 }
 
 /*
  * TODO 
-Description	Resource	Path	Location	Type
-Javadoc: Missing comment for private declaration	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 110	Java Problem
-Javadoc: Missing comment for private declaration	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 155	Java Problem
-Javadoc: Missing comment for public declaration	ArgumentParser.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 5	Java Problem
-Javadoc: Missing comment for public declaration	ArgumentParser.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 243	Java Problem
-Javadoc: Missing comment for public declaration	FileStemmer.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 22	Java Problem
-Javadoc: Missing comment for public declaration	FileStemmer.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 23	Java Problem
-Javadoc: Missing comment for public declaration	JsonWriter.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 363	Java Problem
-Javadoc: Missing comment for public declaration	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 22	Java Problem
-Javadoc: Missing comment for public declaration	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 24	Java Problem
-The import java.io.BufferedReader is never used	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 3	Java Problem
-The import java.io.FileReader is never used	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 5	Java Problem
-The import java.nio.file.FileSystems is never used	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 8	Java Problem
-The import java.util.Collection is never used	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 13	Java Problem
-The import java.util.HashMap is never used	Driver.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 8	Java Problem
-The import java.util.Map is never used	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 15	Java Problem
-The import java.util.Scanner is never used	getJsonFile.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 17	Java Problem
-The import java.util.TreeMap is never used	JsonWriter.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 15	Java Problem
-The import java.util.TreeSet is never used	JsonWriter.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 16	Java Problem
-The value of the local variable files is not used	Driver.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 37	Java Problem
+handle warnings
 */

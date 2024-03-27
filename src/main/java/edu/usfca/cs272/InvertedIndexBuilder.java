@@ -1,19 +1,54 @@
 package edu.usfca.cs272;
 
-import java.util.HashMap;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class InvertedIndexBuilder {
-//	TreeMap<String, Integer> countMap, 
-//	 * TreeMap<String, TreeMap<String, TreeSet<Integer>>> invertedIndex
-//	 * 
-//	 * addCount(String location, Integer count) --> countMap
-//	 * addWord(String word, String location, Integer position) --> invertedIndex
 	
-	private static HashMap<String, Integer> emptyMap;
-	private static boolean hasText = true;
 	
+	void checkDirectory(Path originalFile) throws IOException {
+    	if (Files.isDirectory(originalFile) == true) {
+    		traverseDirectory(originalFile);
+    	} else {
+    		processFile(originalFile);
+    	}
+    	
+	}
+	
+	static void traverseDirectory(Path directory) throws IOException {
+		try (DirectoryStream<Path> listing = Files.newDirectoryStream(directory)) {
+			// use an enhanced-for or for-each loop for efficiency and simplicity??
+			for (Path path : listing) {
+				if (Files.isDirectory(path)) {
+					traverseDirectory(path);
+				} else {
+					if (checkValidFile(path)) {
+						processFile(path);
+					}
+				}
+			}
+		}
+	}
+	
+	//builder
+	static private boolean checkValidFile(Path path) {
+		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text");
+	}
+	
+	static void processFile(Path path) throws IOException  {
+		
+		ArrayList<String> stems = FileStemmer.listStems(path);
+		InvertedIndex.addCount(path.toString(), stems.size());
+		int count = 1;
+		for (String stem : stems) {
+			InvertedIndex.addWord(stem, path.toString(), count);
+			count += 1;
+		}
+			
+	}
 	
 	
 }
