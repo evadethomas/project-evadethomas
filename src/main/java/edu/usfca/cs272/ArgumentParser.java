@@ -4,6 +4,13 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.HashMap;
 
+/**
+ * Argument Parser takes in the user arguments It functions to:
+ * <li>-determine if they're properly formatted</li>
+ * <li>-create a map of flags and values</li>
+ * <li>-getter methods</li>
+ * <li>-to retrieve flags and map</li>
+ */
 public class ArgumentParser {
 	/**
 	 * Determines whether the argument is a flag. The argument is considered a flag
@@ -102,6 +109,9 @@ public class ArgumentParser {
 		}
 	}
 
+	/**
+	 * @return map of flags and values
+	 */
 	public HashMap<String, String> getMap() {
 		return flagValmap;
 	}

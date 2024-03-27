@@ -20,7 +20,18 @@ import opennlp.tools.stemmer.Stemmer;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import opennlp.tools.stemmer.snowball.SnowballStemmer.ALGORITHM;
 
+/**
+ * Utility class for stemming words in text files.
+ *
+ * This class provides methods to clean, parse, and stem text files using the
+ * Snowball stemmer for English. It also offers functionality to list stems,
+ * list unique stems, and parse text into cleaned and stemmed words.
+ *
+ * @author Eva DeThomas
+ * @cite Sophie Engle instructor starter code and resources
+ */
 public class FileStemmer {
+	/** Regular expression that splits using whitespace **/
 	public static final Pattern SPLIT_REGEX = Pattern.compile("(?U)\\p{Space}+");
 
 	/** Regular expression that matches non-alphabetic characters. **/

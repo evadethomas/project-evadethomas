@@ -6,13 +6,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 
-// TODO
-//ADD DOCUMENTATION/comments
-//Add javadoc warnings to eclipse
-//RENAME VARS
-//"Save actions - remove unused imports"
-//Save actions white space
-
 /**
  * Class responsible for running this project based on the provided command-line
  * arguments. See the README for details.
@@ -40,7 +33,6 @@ import java.util.Arrays;
  * @version Spring 2024
  */
 public class Driver {
-
 	/**
 	 * Initializes the classes necessary based on the provided command-line
 	 * arguments.
@@ -90,7 +82,7 @@ public class Driver {
 		if (parsedFlags.hasFlag("-counts")) {
 			final Path countsPath = parsedFlags.getPath("-counts", Path.of("counts.json"));
 			try {
-				invertedIndex.writeJson(countsPath, hasText);
+				invertedIndex.writeCounts(countsPath, hasText);
 			} catch (final IOException e) {
 				System.out.println("Unable to write the word counts to path: " + countsPath);
 			}

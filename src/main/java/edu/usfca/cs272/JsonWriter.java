@@ -345,6 +345,11 @@ public class JsonWriter {
 		writer.write("}");
 	}
 
+	/**
+	 * @param invertedIndex takes in the inverted index to write with
+	 * @param path          the file to write to
+	 * @throws IOException if an IO error occurs
+	 */
 	public static void writeObjectNested(
 			Map<String, ? extends Map<String, ? extends Collection<? extends Number>>> invertedIndex, Path path)
 			throws IOException {
