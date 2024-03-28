@@ -73,10 +73,9 @@ public class JsonWriter {
 	 * @see Writer#write(String)
 	 * @see #writeIndent(Writer, int)
 	 * @see #writeIndent(String, Writer, int)
-	 *
-	 *
 	 */
 	public static void writeArray(Collection<? extends Number> elements, Writer writer, int indent) throws IOException {
+		// TODO https://piazza.com/class/lre2knhq1s27bo/post/229
 		writer.write("[\n");
 		// CITE: Looked at sophie's lecture examples in IterationDemo.java
 		// Using iterator to go through the collection, formatting in json for each
@@ -353,6 +352,11 @@ public class JsonWriter {
 			throws IOException {
 		try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
 
+			/*
+			 * TODO Make 3 versions of this like writeArray pattern so the core
+			 * logic is more resuable 
+			 */
+			
 			// use writeObjectArrays
 			int trackLast = 0;
 			final int indent = 0;
