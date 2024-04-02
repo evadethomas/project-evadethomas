@@ -74,6 +74,26 @@ public class JsonWriter {
 	 * @see #writeIndent(Writer, int)
 	 * @see #writeIndent(String, Writer, int)
 	 */
+//	public static void writeArray(Collection<? extends Number> elements, Writer writer, int indent) throws IOException {
+//		// TODO https://piazza.com/class/lre2knhq1s27bo/post/229
+//		writer.write("[\n");
+//		// CITE: Looked at sophie's lecture examples in IterationDemo.java
+//		// Using iterator to go through the collection, formatting in json for each
+//		// element
+//		final Iterator<?> elementsItered = elements.iterator();
+//		while (elementsItered.hasNext()) {
+//			writeIndent(writer, indent + 1);
+//			writer.write(String.valueOf(elementsItered.next()));
+//			if (elementsItered.hasNext()) {
+//				writer.write((",\n"));
+//			} else {
+//				writer.write("\n");
+//			}
+//		}
+//		writeIndent(writer, indent);
+//		writer.write("]");
+//	}
+
 	public static void writeArray(Collection<? extends Number> elements, Writer writer, int indent) throws IOException {
 		// TODO https://piazza.com/class/lre2knhq1s27bo/post/229
 		writer.write("[\n");
@@ -81,15 +101,18 @@ public class JsonWriter {
 		// Using iterator to go through the collection, formatting in json for each
 		// element
 		final Iterator<?> elementsItered = elements.iterator();
+		final String first = String.valueOf(elementsItered.next());
+
+		if (first != null) {
+			writeIndent(writer, indent + 1);
+			writer.write(first);
+		}
 		while (elementsItered.hasNext()) {
+			writer.write((",\n"));
 			writeIndent(writer, indent + 1);
 			writer.write(String.valueOf(elementsItered.next()));
-			if (elementsItered.hasNext()) {
-				writer.write((",\n"));
-			} else {
-				writer.write("\n");
-			}
 		}
+		writer.write("\n");
 		writeIndent(writer, indent);
 		writer.write("]");
 	}
@@ -353,10 +376,10 @@ public class JsonWriter {
 		try (BufferedWriter writer = Files.newBufferedWriter(path, UTF_8)) {
 
 			/*
-			 * TODO Make 3 versions of this like writeArray pattern so the core
-			 * logic is more resuable 
+			 * TODO Make 3 versions of this like writeArray pattern so the core logic is
+			 * more resuable
 			 */
-			
+
 			// use writeObjectArrays
 			int trackLast = 0;
 			final int indent = 0;
