@@ -74,44 +74,26 @@ public class JsonWriter {
 	 * @see #writeIndent(Writer, int)
 	 * @see #writeIndent(String, Writer, int)
 	 */
-//	public static void writeArray(Collection<? extends Number> elements, Writer writer, int indent) throws IOException {
-//		// TODO https://piazza.com/class/lre2knhq1s27bo/post/229
-//		writer.write("[\n");
-//		// CITE: Looked at sophie's lecture examples in IterationDemo.java
-//		// Using iterator to go through the collection, formatting in json for each
-//		// element
-//		final Iterator<?> elementsItered = elements.iterator();
-//		while (elementsItered.hasNext()) {
-//			writeIndent(writer, indent + 1);
-//			writer.write(String.valueOf(elementsItered.next()));
-//			if (elementsItered.hasNext()) {
-//				writer.write((",\n"));
-//			} else {
-//				writer.write("\n");
-//			}
-//		}
-//		writeIndent(writer, indent);
-//		writer.write("]");
-//	}
 
 	public static void writeArray(Collection<? extends Number> elements, Writer writer, int indent) throws IOException {
 		// TODO https://piazza.com/class/lre2knhq1s27bo/post/229
-		writer.write("[\n");
+		writer.write("[");
 		// CITE: Looked at sophie's lecture examples in IterationDemo.java
 		// Using iterator to go through the collection, formatting in json for each
 		// element
 		final Iterator<?> elementsItered = elements.iterator();
-		final String first = String.valueOf(elementsItered.next());
 
-		if (first != null) {
+		if (elementsItered.hasNext()) {
+			writer.write("\n");
 			writeIndent(writer, indent + 1);
-			writer.write(first);
+			writer.write(String.valueOf(elementsItered.next()));
 		}
 		while (elementsItered.hasNext()) {
 			writer.write((",\n"));
 			writeIndent(writer, indent + 1);
 			writer.write(String.valueOf(elementsItered.next()));
 		}
+
 		writer.write("\n");
 		writeIndent(writer, indent);
 		writer.write("]");
@@ -171,15 +153,34 @@ public class JsonWriter {
 	 * @see #writeIndent(String, Writer, int)
 	 * @see #writeObject(Map)
 	 */
+//	public static void writeArrayObjects(Collection<? extends Map<String, ? extends Number>> elements, Writer writer,
+//			int indent) throws IOException {
+//		int trackLast = 0;
+//		writer.write("[\n");
+//		// Iterates through the collection param
+//		for (final var element : elements) {
+//			writeIndent(writer, indent + 1);
+//			// Since each element is a map, call writeObject on the element
+//			writeObject(element, writer, indent + 1);
+//			if (trackLast != elements.size() - 1) {
+//				writer.write(",");
+//			}
+//			trackLast++;
+//			writer.write("\n");
+//		}
+//		writer.write("]");
+//	}
+
 	public static void writeArrayObjects(Collection<? extends Map<String, ? extends Number>> elements, Writer writer,
 			int indent) throws IOException {
 		int trackLast = 0;
 		writer.write("[\n");
+		final var elementsIterator = elements.iterator();
 		// Iterates through the collection param
-		for (final var element : elements) {
+		while (elementsIterator.hasNext()) {
 			writeIndent(writer, indent + 1);
 			// Since each element is a map, call writeObject on the element
-			writeObject(element, writer, indent + 1);
+			writeObject(elementsIterator.next(), writer, indent + 1);
 			if (trackLast != elements.size() - 1) {
 				writer.write(",");
 			}
