@@ -20,6 +20,8 @@ import java.util.ArrayList;
 public class InvertedIndexBuilder {
 
 	/**
+	 * TODO Describe
+	 * 
 	 * @param rootFile this is the root of the directory or a file itself
 	 * @throws IOException catches an IO error
 	 */
@@ -39,7 +41,9 @@ public class InvertedIndexBuilder {
 	 * @return whether the file ending is properly formatted or not
 	 * @see InvertedIndexBuilder#processFile(Path)
 	 */
+	// TODO public static
 	static public boolean checkValidFile(Path path) {
+		// TODO var lower = path.toString().toLowerCase();
 		return path.toString().toLowerCase().endsWith(".txt") || path.toString().toLowerCase().endsWith(".text");
 	}
 
@@ -60,10 +64,22 @@ public class InvertedIndexBuilder {
 		final ArrayList<String> stems = FileStemmer.listStems(path);
 		InvertedIndex.addCount(path.toString(), stems.size());
 		int count = 1;
-		for (final String stem : stems) {
+		for (final String stem : stems) { // TODO Make this an addAll method inside of the index
 			InvertedIndex.addWord(stem, path.toString(), count);
 			count += 1;
 		}
+		
+		/*
+		 * TODO Make a more efficient solution
+		 * 
+		 * buffered reader
+		 * line by line
+		 * parse the line
+		 * stem the word
+		 * add to the index never to a list
+		 * 
+		 * (copy/paste parts of FileStemmer)
+		 */
 	}
 
 	/**
@@ -84,7 +100,6 @@ public class InvertedIndexBuilder {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -95,7 +110,7 @@ public class InvertedIndexBuilder {
 	 * @see InvertedIndexBuilder
 	 * @see InvertedIndexBuilder#checkDirectory(Path)
 	 */
-	public InvertedIndexBuilder(Path path) throws IOException {
+	public InvertedIndexBuilder(Path path) throws IOException { // TODO Remove
 		checkDirectory(path);
 	}
 

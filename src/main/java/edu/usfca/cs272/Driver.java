@@ -41,7 +41,7 @@ public class Driver {
 	 * @throws IOException if an I/O error occurs while building or writing the
 	 *                     inverted index
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException { // TODO remove throws 
 		// Store initial start time
 		final Instant start = Instant.now();
 
@@ -60,8 +60,9 @@ public class Driver {
 			final Path textPath = parsedFlags.getPath("-text");
 			try {
 				if (textPath != null) {
+					// TODO InvertedIndexBuilder.checkDirectory(textPath);
 					// Question: Is this bad??
-					new InvertedIndexBuilder(textPath);
+					new InvertedIndexBuilder(textPath); // TODO Maybe?
 				}
 			} catch (final IOException e) {
 				System.out.println("Unable to build the inverted index from path: " + textPath);
@@ -94,3 +95,10 @@ public class Driver {
 		System.out.printf("Elapsed: %f seconds%n", seconds);
 	}
 }
+
+/*
+ * TODO 
+Description	Resource	Path	Location	Type
+Javadoc: Missing comment for private declaration	InvertedIndex.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 32	Java Problem
+Javadoc: Missing comment for private declaration	InvertedIndex.java	/SearchEngine/src/main/java/edu/usfca/cs272	line 33	Java Problem
+*/
